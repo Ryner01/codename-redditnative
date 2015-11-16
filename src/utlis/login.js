@@ -6,7 +6,7 @@ module.exports = {
 
   requestAccesToken(auth) {
     let acessUrl = `https://www.reddit.com/api/v1/access_token`;
-    let authBasic = config.app_key + ': ';
+    let authBasic = config.APP_KEY + ': ';
     var postObj = {
       method: 'post',
       headers: {

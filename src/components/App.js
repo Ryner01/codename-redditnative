@@ -6,7 +6,7 @@ import login from '../utlis/login.js';
 import Frontpage from './Frontpage.js';
 
 let stateString = Math.random().toString();
-let url = `https://reddit.com/api/v1/authorize.compact?client_id=${config.app_key}&response_type=code&state=${stateString}&redirect_uri=nativeforreddit://login&duration=permanent&scope=identity`;
+let url = `https://reddit.com/api/v1/authorize.compact?client_id=${config.APP_KEY}&response_type=code&state=${stateString}&redirect_uri=nativeforreddit://login&duration=permanent&scope=identity`;
 
 var {
   View,

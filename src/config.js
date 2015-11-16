@@ -1,3 +1,3 @@
 module.exports = {
-  app_key: 'NTS24-YXInPT-A'
+  APP_KEY: 'NTS24-YXInPT-A'
 };
