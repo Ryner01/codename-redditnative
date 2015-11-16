@@ -30,14 +30,13 @@ class App extends React.Component {
 
   constructor(props) {
     super(props);
-    this.handleUrl = this.handleUrl.bind(this);
     this.state = {
       urlReturned: false,
     };
   }
 
   componentDidMount() {
-    LinkingIOS.addEventListener('url', this.handleUrl);
+    LinkingIOS.addEventListener('url', this.handleUrl.bind(this));
   }
 
   handleUrl(e) {
