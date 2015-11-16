@@ -29,15 +29,15 @@ var styles = StyleSheet.create({
 class App extends React.Component {
 
   constructor(props) {
-    super(props)
-    this.handleUrl = this.handleUrl.bind(this)
+    super(props);
+    this.handleUrl = this.handleUrl.bind(this);
     this.state = {
       urlReturned: false,
     };
   }
 
   componentDidMount() {
-    LinkingIOS.addEventListener('url', this.handleUrl)
+    LinkingIOS.addEventListener('url', this.handleUrl);
   }
 
   handleUrl(e) {
@@ -46,17 +46,17 @@ class App extends React.Component {
     login.requestAccesToken(parsedQuery).then((res) => {
       this.setState({
         urlReturned: true,
-      })
+      });
     });
   }
 
   render() {
     let renderAuthView = () => {
       if (this.state.urlReturned) {
-        return <Frontpage />
-        }else{
-          return <WebView url={url} style={styles.webView} scalesPageToFit={true} onShouldStartLoadWithRequest={false} />
-        }
+        return <Frontpage />;
+      } else {
+        return <WebView url={url} style={styles.webView} scalesPageToFit onShouldStartLoadWithRequest={false} />;
+      }
     };
     return (
       <View style={styles.container}>

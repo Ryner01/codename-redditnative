@@ -1,7 +1,7 @@
-import authentication from './login.js'
+import authentication from './login.js';
 
 module.exports = {
-	getData() {
-		return authentication.getToken();
-	}
-}
+  getData() {
+    return authentication.getToken();
+  }
+};

@@ -2,9 +2,9 @@ import React from 'react-native';
 import api from '../utlis/api.js';
 
 const {
-	View,
-	Text,
-	StyleSheet
+  View,
+  Text,
+  StyleSheet
 } = React;
 
 let styles = StyleSheet.create({
@@ -14,22 +14,22 @@ let styles = StyleSheet.create({
 });
 
 class Frontpage extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			data: api.getData()
-		}
-	}
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: api.getData()
+    };
+  }
 
-	render() {
-		return (
-			<View style={styles.container}>
-				<Text>GoodJob dude. You are in.</Text>
-				<Text>GoodJob dude. You are in.</Text>
-				<Text>GoodJob dude. You are in.</Text>
-			</View>
-		);
-	}
+  render() {
+    return (
+      <View style={styles.container}>
+        <Text>GoodJob dude. You are in.</Text>
+        <Text>GoodJob dude. You are in.</Text>
+        <Text>GoodJob dude. You are in.</Text>
+      </View>
+    );
+  }
 }
 
 module.exports = Frontpage;
