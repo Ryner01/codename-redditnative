@@ -1,12 +1,5 @@
 # react-native-webpack-starter-kit
 
-[![Dependency Status](https://david-dm.org/jhabdas/react-native-webpack-starter-kit.svg)](https://david-dm.org/jhabdas/react-native-webpack-starter-kit)
-[![devDependency Status](https://david-dm.org/jhabdas/react-native-webpack-starter-kit/dev-status.svg)](https://david-dm.org/jhabdas/react-native-webpack-starter-kit#info=devDependencies)
-
-A minimalist boilerplate for starting React Native apps with Webpack and ES6/7 using Babel. Leverages [`react-native-webpack-server`](https://github.com/mjohnston/react-native-webpack-server). Incorporates sane linting rules for React Native with ESLint. Follows the latest React Native stable release.
-
-For an example implementation check out [Lumpen Radio](https://github.com/jhabdas/lumpen-radio). Or check out some other [Awesome React Boilerplates](http://habd.as/awesome-react-boilerplates/#react-native).
-
 ## Requirements
 
 - [Node](https://nodejs.org) 4.x or better
@@ -26,7 +19,7 @@ For an example implementation check out [Lumpen Radio](https://github.com/jhabda
 Start by cloning this repo and installing dependencies:
 
 ```sh
-git clone https://github.com/jhabdas/react-native-webpack-starter-kit.git
+git clone https://github.com/Ryner01/codename-redditnative
 cd react-native-webpack-starter-kit
 npm install
 npm un -D react-native-webpack-server && npm i -D react-native-webpack-server
