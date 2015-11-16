@@ -1,5 +1,5 @@
 import React from 'react-native';
-import api from '../utlis/api.js';
+import api from '../utils/api.js';
 
 const {
   View,

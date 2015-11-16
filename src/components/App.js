@@ -2,7 +2,7 @@ import React from 'react-native';
 import config from '../config.js';
 import Dimensions from 'Dimensions';
 import queryString from 'query-string';
-import login from '../utlis/login.js';
+import login from '../utils/login.js';
 import Frontpage from './Frontpage.js';
 
 let stateString = Math.random().toString();
