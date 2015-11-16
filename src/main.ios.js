@@ -9,10 +9,6 @@ const {
 } = React;
 
 class Reddit extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     return (
       <Navigator
