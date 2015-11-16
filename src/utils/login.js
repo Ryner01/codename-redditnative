@@ -16,8 +16,8 @@ module.exports = {
     };
     return fetch(acessUrl, postObj).then((res) => {
       return res.json();
-    }).then((final) => {
-      token = final;
+    }).then(value => {
+      token = value;
     });
   },
 
