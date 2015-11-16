@@ -1,9 +1,9 @@
 import Base64 from 'base64';
 import config from '../config';
+
 let token = null;
 
 module.exports = {
-
   requestAccesToken(auth) {
     let acessUrl = `https://www.reddit.com/api/v1/access_token`;
     let authBasic = config.APP_KEY + ': ';
