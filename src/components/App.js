@@ -8,7 +8,7 @@ import Frontpage from './Frontpage.js';
 let stateString = Math.random().toString();
 let url = `https://reddit.com/api/v1/authorize.compact?client_id=${config.APP_KEY}&response_type=code&state=${stateString}&redirect_uri=nativeforreddit://login&duration=permanent&scope=identity`;
 
-var {
+let {
   View,
   Text,
   StyleSheet,
@@ -16,7 +16,7 @@ var {
   LinkingIOS
 } = React;
 
-var styles = StyleSheet.create({
+let styles = StyleSheet.create({
   container: {
     flex: 1
   },
@@ -41,8 +41,8 @@ class App extends React.Component {
   }
 
   handleUrl(e) {
-    var query = e.url.split('?')[1];
-    var parsedQuery = queryString.parse(query);
+    let query = e.url.split('?')[1];
+    let parsedQuery = queryString.parse(query);
     login.requestAccesToken(parsedQuery).then((res) => {
       this.setState({
         urlReturned: true,

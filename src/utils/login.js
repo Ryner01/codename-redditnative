@@ -7,7 +7,7 @@ module.exports = {
   requestAccesToken(auth) {
     let acessUrl = `https://www.reddit.com/api/v1/access_token`;
     let authBasic = config.APP_KEY + ': ';
-    var postObj = {
+    let postObj = {
       method: 'post',
       headers: {
         'Authorization': `Basic ${Base64.btoa(authBasic)}`
