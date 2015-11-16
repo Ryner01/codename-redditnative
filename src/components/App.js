@@ -48,17 +48,18 @@ class App extends React.Component {
     });
   }
 
+  renderAuthView() {
+    if (this.state.urlReturned) {
+      return <Frontpage />;
+    } else {
+      return <WebView url={url} style={styles.webView} scalesPageToFit onShouldStartLoadWithRequest={false} />;
+    }
+  }
+
   render() {
-    let renderAuthView = () => {
-      if (this.state.urlReturned) {
-        return <Frontpage />;
-      } else {
-        return <WebView url={url} style={styles.webView} scalesPageToFit onShouldStartLoadWithRequest={false} />;
-      }
-    };
     return (
       <View style={styles.container}>
-        {renderAuthView()}
+        {this.renderAuthView()}
       </View>
     );
   }
