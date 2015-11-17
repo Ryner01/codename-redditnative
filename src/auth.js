@@ -43,7 +43,7 @@ class Auth {
       })
     };
 
-    return fetch(ACCESS_TOKEN_URL, params).then(res => { res.json(); });
+    return fetch(ACCESS_TOKEN_URL, params).then(res => res.json());
   }
 
   _handleUrl(e) {
