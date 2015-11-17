@@ -9,7 +9,6 @@
     "start": "rnws start"
   },
   "dependencies": {
-    "query-string": "^3.0.0",
     "react-native": "0.13 - 0.14"
   },
   "devDependencies": {

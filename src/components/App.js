@@ -1,7 +1,7 @@
 import React from 'react-native';
 import config from '../config.js';
 import Dimensions from 'Dimensions';
-import queryString from 'query-string';
+import querystring from 'querystring';
 import login from '../utils/login.js';
 import Frontpage from './Frontpage.js';
 
@@ -31,7 +31,7 @@ class App extends React.Component {
 
   handleUrl(e) {
     let query = e.url.split('?')[1];
-    let parsedQuery = queryString.parse(query);
+    let parsedQuery = querystring.parse(query);
     login.requestAccesToken(parsedQuery).then(res => {
       this.setState({
         urlReturned: true,

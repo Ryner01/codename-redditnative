@@ -1,5 +1,6 @@
 import Base64 from 'base64';
 import config from '../config';
+import querystring from 'querystring';
 
 let token = null;
 
@@ -12,7 +13,11 @@ module.exports = {
       headers: {
         'Authorization': `Basic ${Base64.btoa(authBasic)}`
       },
-      body: `grant_type=authorization_code&code=${auth.code}&redirect_uri=nativeforreddit://login`
+      body: querystring.stringify({
+        'grant_type': 'authorization_code',
+        'code': auth.code,
+        'redirect_uri': 'nativeforreddit://login'
+      })
     };
     return fetch(url, params).then(res => {
       return res.json();
