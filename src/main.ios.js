@@ -9,7 +9,7 @@ const {
   StyleSheet
 } = React;
 
-var styles = StyleSheet.create({
+let styles = StyleSheet.create({
   navWrap: {
     flex: 1,
     marginTop: 70

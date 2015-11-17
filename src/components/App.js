@@ -30,7 +30,7 @@ class App extends React.Component {
   }
 
   handleUrl(e) {
-    var query = url.parse(e.url, true).query;
+    let query = url.parse(e.url, true).query;
     login.requestAccesToken(query).then(res => {
       this.setState({
         urlReturned: true,
