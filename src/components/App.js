@@ -1,5 +1,6 @@
 import React from 'react-native';
 import Auth from '../auth';
+import Subreddit from './subreddit';
 
 let {
   View,
@@ -24,6 +25,10 @@ var styles = StyleSheet.create({
 });
 
 class App extends React.Component {
+  static childContextTypes = {
+    auth: React.PropTypes.object
+  }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -32,6 +37,12 @@ class App extends React.Component {
 
     this.auth = new Auth();
     this.auth.init();
+  }
+
+  getChildContext() {
+    return {
+      auth: this.auth
+    };
   }
 
   handleLoginButton() {
@@ -54,9 +65,7 @@ class App extends React.Component {
     }
 
     return (
-      <View>
-        <Text>Hello</Text>
-      </View>
+      <Subreddit name='programming'/>
     );
   }
 }
