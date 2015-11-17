@@ -1,5 +1,5 @@
 import React from 'react-native';
-import api from '../utils/api.js';
+import Login from '../utils/login';
 
 const {
   View,
@@ -8,17 +8,10 @@ const {
 } = React;
 
 class Frontpage extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      data: api.getData()
-    };
-  }
-
   render() {
     return (
       <View>
-        <Text>{JSON.stringify(this.state, null, 2)}</Text>
+        <Text>{JSON.stringify(Login.token, null, 2)}</Text>
       </View>
     );
   }
