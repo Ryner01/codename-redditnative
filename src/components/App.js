@@ -1,55 +1,61 @@
 import React from 'react-native';
-import config from '../config.js';
-import Dimensions from 'Dimensions';
-import login from '../utils/login.js';
-import Frontpage from './Frontpage.js';
-import url from 'url';
-
-let stateString = Math.random().toString();
-let authorizeURL = `https://www.reddit.com/api/v1/authorize.compact?client_id=${config.APP_KEY}&response_type=code&state=${stateString}&redirect_uri=nativeforreddit://login&duration=permanent&scope=identity`;
+import Auth from '../auth';
 
 let {
   View,
   Text,
-  StyleSheet,
-  WebView,
-  LinkingIOS
+  TouchableHighlight,
+  StyleSheet
 } = React;
+
+var styles = StyleSheet.create({
+  buttonText: {
+    fontSize: 18,
+    color: 'white',
+    alignSelf: 'center'
+  },
+  button: {
+    height: 44,
+    flexDirection: 'row',
+    backgroundColor: '#48BBEC',
+    alignSelf: 'stretch',
+    justifyContent: 'center'
+  }
+});
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      urlReturned: false,
+      authenticated: false,
     };
+
+    this.auth = new Auth();
+    this.auth.init();
   }
 
-  componentDidMount() {
-    LinkingIOS.addEventListener('url', this.handleUrl.bind(this));
-    LinkingIOS.openURL(authorizeURL);
-  }
-
-  handleUrl(e) {
-    let query = url.parse(e.url, true).query;
-    login.requestAccesToken(query).then(res => {
+  handleLoginButton() {
+    this.auth.login(() => {
       this.setState({
-        urlReturned: true,
+        authenticated: true
       });
     });
   }
 
-  renderAuthView() {
-    if (this.state.urlReturned) {
-      return <Frontpage />;
-    } else {
-      return <Text>You should log in</Text>;
-    }
-  }
-
   render() {
+    if (!this.state.authenticated) {
+      return (
+        <View style={styles.container}>
+          <TouchableHighlight style={styles.button} onPress={this.handleLoginButton.bind(this)}>
+            <Text style={styles.buttonText}>Login</Text>
+          </TouchableHighlight>
+        </View>
+      );
+    }
+
     return (
       <View>
-        {this.renderAuthView()}
+        <Text>Hello</Text>
       </View>
     );
   }
