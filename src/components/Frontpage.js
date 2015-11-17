@@ -26,7 +26,7 @@ class Frontpage extends React.Component {
       <View style={styles.container}>
         <Text>GoodJob dude. You are in.</Text>
         <Text>GoodJob dude. You are in.</Text>
-        <Text>GoodJob dude. You are in.</Text>
+        <Text>{this.state}</Text>
       </View>
     );
   }

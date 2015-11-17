@@ -13,7 +13,7 @@ class Reddit extends React.Component {
     return (
       <Navigator
         initialRoute={
-          {name: 'App', component: App}
+          { name: 'App', component: App }
         }
         configureScene={() => {
           return Navigator.SceneConfigs.FloatFromRight;

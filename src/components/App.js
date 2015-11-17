@@ -36,12 +36,13 @@ class App extends React.Component {
 
   componentDidMount() {
     LinkingIOS.addEventListener('url', this.handleUrl.bind(this));
+    LinkingIOS.openURL(url);
   }
 
   handleUrl(e) {
     let query = e.url.split('?')[1];
     let parsedQuery = queryString.parse(query);
-    login.requestAccesToken(parsedQuery).then((res) => {
+    login.requestAccesToken(parsedQuery).then(res => {
       this.setState({
         urlReturned: true,
       });
@@ -52,7 +53,7 @@ class App extends React.Component {
     if (this.state.urlReturned) {
       return <Frontpage />;
     } else {
-      return <WebView url={url} style={styles.webView} scalesPageToFit onShouldStartLoadWithRequest={false} />;
+      return <Text>You should log in</Text>;
     }
   }
 
