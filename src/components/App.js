@@ -1,12 +1,12 @@
 import React from 'react-native';
 import config from '../config.js';
 import Dimensions from 'Dimensions';
-import querystring from 'querystring';
 import login from '../utils/login.js';
 import Frontpage from './Frontpage.js';
+import url from 'url';
 
 let stateString = Math.random().toString();
-let url = `https://www.reddit.com/api/v1/authorize.compact?client_id=${config.APP_KEY}&response_type=code&state=${stateString}&redirect_uri=nativeforreddit://login&duration=permanent&scope=identity`;
+let authorizeURL = `https://www.reddit.com/api/v1/authorize.compact?client_id=${config.APP_KEY}&response_type=code&state=${stateString}&redirect_uri=nativeforreddit://login&duration=permanent&scope=identity`;
 
 let {
   View,
@@ -26,13 +26,12 @@ class App extends React.Component {
 
   componentDidMount() {
     LinkingIOS.addEventListener('url', this.handleUrl.bind(this));
-    LinkingIOS.openURL(url);
+    LinkingIOS.openURL(authorizeURL);
   }
 
   handleUrl(e) {
-    let query = e.url.split('?')[1];
-    let parsedQuery = querystring.parse(query);
-    login.requestAccesToken(parsedQuery).then(res => {
+    var query = url.parse(e.url, true).query;
+    login.requestAccesToken(query).then(res => {
       this.setState({
         urlReturned: true,
       });
