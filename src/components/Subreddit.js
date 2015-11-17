@@ -1,11 +1,63 @@
 import React from 'react-native';
 import Api from '../api';
+import relativeDate from '../utils/relative-date';
 
 const {
   Text,
   ListView,
-  View
+  View,
+  StyleSheet,
+  Image,
+  PixelRatio
 } = React;
+
+
+var styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff'
+  },
+  row: {
+    flex: 1,
+    alignItems: 'center',
+    backgroundColor: 'white',
+    flexDirection: 'row',
+    padding: 10
+  },
+  textContainer: {
+    flex: 1
+  },
+  cellImage: {
+    height: 60,
+    borderRadius: 30,
+    marginRight: 10,
+    width: 60
+  },
+  title: {
+    flex: 1,
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 2
+  },
+  info: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  },
+  domain: {
+    color: '#999999',
+    fontSize: 12
+  },
+  time: {
+    fontSize: 12,
+    color: '#cccccc'
+  },
+  cellBorder: {
+    backgroundColor: 'rgba(0, 0, 0, 0.1)',
+    height: 1 / PixelRatio.get(),
+    marginLeft: 4
+  }
+});
 
 class Subreddit extends React.Component {
   static contextTypes = {
@@ -33,13 +85,40 @@ class Subreddit extends React.Component {
     });
   }
 
+  renderRow(item) {
+    let image = item.image ? (
+      <Image
+      source={ { uri: item.image } }
+      style={styles.cellImage}
+      />
+    ) : null;
+    return (
+      <View style={styles.row}>
+        {image}
+        <View style={styles.textContainer}>
+          <Text style={styles.title}>
+            {item.title}
+          </Text>
+          <View style={styles.info}>
+            <Text style={styles.domain} numberOfLines={1}>
+              {item.domain}
+            </Text>
+            <Text style={styles.time} numberOfLines={1}>
+              {relativeDate(item.created)}
+            </Text>
+          </View>
+        </View>
+        <View style={styles.cellBorder} />
+      </View>
+    );
+  }
+
   render() {
     return (
-      <View>
-        <Text>{this.props.name}</Text>
+      <View style={styles.container}>
         <ListView
           dataSource={this.state.dataSource}
-          renderRow={(rowData) => <Text>{rowData.title}</Text>}
+          renderRow={this.renderRow.bind(this)}
         />
       </View>
     );

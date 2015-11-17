@@ -65,7 +65,7 @@ class App extends React.Component {
     }
 
     return (
-      <Subreddit name='programming'/>
+      <Subreddit name='all'/>
     );
   }
 }
