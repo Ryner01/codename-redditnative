@@ -5,25 +5,30 @@ const {
   AppRegistry,
   View,
   Text,
-  Navigator
+  NavigatorIOS,
+  StyleSheet
 } = React;
+
+var styles = StyleSheet.create({
+  navWrap: {
+    flex: 1,
+    marginTop: 70
+  },
+  nav: {
+    flex: 1
+  }
+});
 
 class Reddit extends React.Component {
   render() {
     return (
-      <Navigator
-        initialRoute={
-          { name: 'App', component: App }
-        }
-        configureScene={() => {
-          return Navigator.SceneConfigs.FloatFromRight;
-        }}
-        renderScene={(route, navigator) => {
-          if (route.component) {
-            return React.createElement(route.component, { navigator });
-          }
-        }}
-      />
+      <NavigatorIOS
+        itemWrapperStyle={styles.navWrap}
+        style={styles.nav}
+        initialRoute={{
+          title: 'Reddit',
+          component: App,
+        }} />
     );
   }
 }

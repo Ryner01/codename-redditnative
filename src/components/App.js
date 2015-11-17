@@ -16,16 +16,6 @@ let {
   LinkingIOS
 } = React;
 
-let styles = StyleSheet.create({
-  container: {
-    flex: 1
-  },
-  webView: {
-    width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height
-  }
-});
-
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -59,7 +49,7 @@ class App extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <View>
         {this.renderAuthView()}
       </View>
     );

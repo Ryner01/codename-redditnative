@@ -7,12 +7,6 @@ const {
   StyleSheet
 } = React;
 
-let styles = StyleSheet.create({
-  container: {
-    flex: 1
-  }
-});
-
 class Frontpage extends React.Component {
   constructor(props) {
     super(props);
@@ -23,10 +17,8 @@ class Frontpage extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <Text>GoodJob dude. You are in.</Text>
-        <Text>GoodJob dude. You are in.</Text>
-        <Text>{this.state}</Text>
+      <View>
+        <Text>{JSON.stringify(this.state, null, 2)}</Text>
       </View>
     );
   }
