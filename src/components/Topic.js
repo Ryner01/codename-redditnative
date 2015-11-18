@@ -7,20 +7,29 @@ let {
   Text,
   StyleSheet,
   Image,
-  ListView
+  ListView,
+  ScrollView
 } = React;
 
 var styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white'
+    backgroundColor: 'white',
+    flexDirection: 'column'
   },
+
   detail: {
     flex: 1,
-    alignItems: 'flex-start',
+    alignItems: 'center',
+    backgroundColor: 'white',
     flexDirection: 'row',
     padding: 10
   },
+
+  comments: {
+    padding: 10
+  },
+
   textContainer: {
     flex: 1
   },
@@ -75,7 +84,7 @@ class Topic extends React.Component {
     });
   }
 
-  renderRow(item) {
+  renderComment(item) {
     return (
       <View style={styles.row}>
         <View style={styles.textContainer}>
@@ -105,26 +114,32 @@ class Topic extends React.Component {
     ) : null;
     return (
       <View style={styles.container}>
-        <View style={styles.detail}>
-          {image}
-          <View style={styles.textContainer}>
-            <Text style={styles.title}>
-              {item.title}
-            </Text>
-            <View style={styles.info}>
-              <Text style={styles.domain} numberOfLines={1}>
-                {item.domain}
-              </Text>
-              <Text style={styles.time} numberOfLines={1}>
-                {relativeDate(item.created)}
-              </Text>
+        <ScrollView>
+          <View>
+            <View style={styles.detail}>
+              {image}
+              <View style={styles.textContainer}>
+                <Text style={styles.title}>
+                  {item.title}
+                </Text>
+                <View style={styles.info}>
+                  <Text style={styles.domain} numberOfLines={1}>
+                    {item.domain}
+                  </Text>
+                  <Text style={styles.time} numberOfLines={1}>
+                    {relativeDate(item.created)}
+                  </Text>
+                </View>
+              </View>
             </View>
           </View>
-        </View>
-        <ListView
-          dataSource={this.state.dataSource}
-          renderRow={this.renderRow.bind(this)}
-        />
+          <View style={styles.comments}>
+            <ListView
+              dataSource={this.state.dataSource}
+              renderRow={this.renderComment.bind(this)}
+            />
+          </View>
+        </ScrollView>
       </View>
     );
   }
