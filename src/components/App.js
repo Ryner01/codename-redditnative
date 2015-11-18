@@ -1,15 +1,24 @@
 import React from 'react-native';
 import Auth from '../auth';
-import Subreddit from './subreddit';
+import querystring from 'querystring';
+
+import Subreddit from './Subreddit';
+import Topic from './Topic';
 
 let {
   View,
   Text,
   TouchableHighlight,
-  StyleSheet
+  StyleSheet,
+  Navigator
 } = React;
 
 var styles = StyleSheet.create({
+  pageContainer: {
+    marginTop: 70,
+    backgroundColor: 'white',
+    flex: 1
+  },
   buttonText: {
     fontSize: 18,
     color: 'white',
@@ -23,6 +32,20 @@ var styles = StyleSheet.create({
     justifyContent: 'center'
   }
 });
+
+let NavigationBarRouteMapper = {
+  LeftButton() {
+    return null;
+  },
+
+  RightButton() {
+    return null;
+  },
+
+  Title() {
+    return <Text>Test</Text>;
+  }
+};
 
 class App extends React.Component {
   static childContextTypes = {
@@ -65,7 +88,24 @@ class App extends React.Component {
     }
 
     return (
-      <Subreddit name='all'/>
+      <Navigator
+        initialRoute={{name: 'Subreddit', index: 0}}
+        navigationBar={
+          <Navigator.NavigationBar
+            routeMapper={NavigationBarRouteMapper}
+          />
+        }
+        renderScene={(route, navigator) => {
+          let page = null;
+          if (route.name === 'Subreddit') {
+            page = <Subreddit navigator={navigator} name='all'/>;
+          } else if (route.name === 'Topic') {
+            page = <Topic navigator={navigator} data={route.data}/>;
+          }
+
+          return <View style={styles.pageContainer}>{page}</View>;
+        }}
+        />
     );
   }
 }

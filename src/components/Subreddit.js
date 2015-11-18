@@ -8,7 +8,8 @@ const {
   View,
   StyleSheet,
   Image,
-  PixelRatio
+  PixelRatio,
+  TouchableHighlight
 } = React;
 
 
@@ -85,6 +86,10 @@ class Subreddit extends React.Component {
     });
   }
 
+  handleRowPress(data) {
+    this.props.navigator.push({ name: 'Topic', data: data });
+  }
+
   renderRow(item) {
     let image = item.image ? (
       <Image
@@ -93,23 +98,25 @@ class Subreddit extends React.Component {
       />
     ) : null;
     return (
-      <View style={styles.row}>
-        {image}
-        <View style={styles.textContainer}>
-          <Text style={styles.title}>
-            {item.title}
-          </Text>
-          <View style={styles.info}>
-            <Text style={styles.domain} numberOfLines={1}>
-              {item.domain}
+      <TouchableHighlight onPress={this.handleRowPress.bind(this, item)}>
+        <View style={styles.row}>
+          {image}
+          <View style={styles.textContainer}>
+            <Text style={styles.title}>
+              {item.title}
             </Text>
-            <Text style={styles.time} numberOfLines={1}>
-              {relativeDate(item.created)}
-            </Text>
+            <View style={styles.info}>
+              <Text style={styles.domain} numberOfLines={1}>
+                {item.domain}
+              </Text>
+              <Text style={styles.time} numberOfLines={1}>
+                {relativeDate(item.created)}
+              </Text>
+            </View>
           </View>
+          <View style={styles.cellBorder} />
         </View>
-        <View style={styles.cellBorder} />
-      </View>
+      </TouchableHighlight>
     );
   }
 
