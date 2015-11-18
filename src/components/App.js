@@ -55,7 +55,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      authenticated: false,
+      authenticated: true,
     };
 
     this.auth = new Auth();
