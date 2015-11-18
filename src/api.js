@@ -19,6 +19,47 @@ let API = {
       });
   },
 
+  getComments(subreddit, id, options) {
+    options = extend(true, {
+      sort: 'hot'
+    }, options);
+
+    return fetch(API.URL + 'r/' + subreddit + '/comments/' + id + '.json?sort=' + options.sort)
+      .then(res => res.json())
+      .then(data => {
+        return {
+          detail: API._formatTopic(data[0].data.children[0]),
+          comments: API._mapComments(data[1].data.children)
+        };
+      });
+  },
+
+  _mapComments(data) {
+    return data.map(function(item) {
+      if (item.kind === 'more') {
+        return {
+          more: true,
+          id: item.data.id,
+          name: item.data.name,
+          parentId: item.data.parent_id,
+          children: item.data.children
+        };
+      }
+
+      var record = item.data;
+      return {
+        more: false,
+        id: record.id,
+        gold: record.gilded,
+        author: record.author,
+        text: record.body,
+        score: record.score,
+        created: record.created_utc,
+        comments: record.replies ? API._mapComments(record.replies.data.children) : []
+      };
+    }).filter(item => item);
+  },
+
   _formatTopic(item) {
     var record = item.data;
     return {

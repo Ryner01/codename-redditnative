@@ -1,11 +1,13 @@
 import React from 'react-native';
 import relativeDate from '../utils/relative-date';
+import Api from '../api';
 
 let {
   View,
   Text,
   StyleSheet,
-  Image
+  Image,
+  ListView
 } = React;
 
 var styles = StyleSheet.create({
@@ -50,9 +52,52 @@ var styles = StyleSheet.create({
 });
 
 class Topic extends React.Component {
-  render() {
-    let item = this.props.data;
+  constructor(props) {
+    super(props);
 
+    let ds = new ListView.DataSource({
+      rowHasChanged: (r1, r2) => {
+        return r1 !== r2;
+      }
+    });
+
+    this.state = {
+      dataSource: ds.cloneWithRows([]),
+      loading: true
+    };
+
+    Api.getComments(this.props.data.subreddit, this.props.data.id).then((result) => {
+      console.log(result);
+      this.setState({
+        detail: result.detail,
+        dataSource: this.state.dataSource.cloneWithRows(result.comments),
+        loading: false
+      });
+    });
+  }
+
+  renderRow(item) {
+    return (
+      <View style={styles.row}>
+        <View style={styles.textContainer}>
+          <Text style={styles.domain}>
+            {item.author}
+          </Text>
+          <Text style={styles.title}>
+            {item.text}
+          </Text>
+        </View>
+        <View style={styles.cellBorder} />
+      </View>
+    );
+  }
+
+  render() {
+    if (this.state.loading) {
+      return <Text>Loading</Text>;
+    }
+
+    let item = this.state.detail;
     let image = item.image ? (
       <Image
       source={ { uri: item.image } }
@@ -77,12 +122,10 @@ class Topic extends React.Component {
             </View>
           </View>
         </View>
-        <Text>comment</Text>
-        <Text>comment</Text>
-        <Text>comment</Text>
-        <Text>comment</Text>
-        <Text>comment</Text>
-        <Text>comment</Text>
+        <ListView
+          dataSource={this.state.dataSource}
+          renderRow={this.renderRow.bind(this)}
+        />
       </View>
     );
   }
