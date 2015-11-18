@@ -72,7 +72,7 @@ class Favorites extends React.Component {
   }
 
   handleRowPress(data) {
-    this.props.navigator.push({ name: 'Subreddit', subreddit: data.name });
+    this.props.navigator.push({ navTitle: data.name, name: 'Subreddit', subreddit: data.name });
   }
 
   renderRow(item) {

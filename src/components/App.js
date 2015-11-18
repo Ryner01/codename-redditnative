@@ -42,8 +42,9 @@ let NavigationBarRouteMapper = {
     return null;
   },
 
-  Title() {
-    return <Text>Test</Text>;
+  Title(route) {
+    let name = route.navTitle == null ? route.name : route.navTitle;
+    return <Text>{name}</Text>;
   }
 };
 

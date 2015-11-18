@@ -86,7 +86,7 @@ class Subreddit extends React.Component {
   }
 
   handleRowPress(data) {
-    this.props.navigator.push({ name: 'Topic', data: data });
+    this.props.navigator.push({ navTitle: 'Post', name: 'Topic', data: data });
   }
 
   renderRow(item) {
