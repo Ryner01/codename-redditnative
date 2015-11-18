@@ -1,13 +1,10 @@
 import React from 'react-native';
-import Api from '../api';
-import relativeDate from '../utils/relative-date';
 
 const {
   Text,
   ListView,
   View,
   StyleSheet,
-  Image,
   PixelRatio,
   TouchableHighlight
 } = React;
@@ -59,11 +56,7 @@ var styles = StyleSheet.create({
   }
 });
 
-class Subreddit extends React.Component {
-  static contextTypes = {
-    auth: React.PropTypes.object
-  }
-
+class Favorites extends React.Component {
   constructor(props) {
     super(props);
 
@@ -74,44 +67,22 @@ class Subreddit extends React.Component {
     });
 
     this.state = {
-      dataSource: ds.cloneWithRows([]),
+      dataSource: ds.cloneWithRows([{ name: 'all' }, { name: 'programming' }, { name: 'vim' }, { name: 'javascript' }]),
     };
-
-    Api.subreddit(this.props.name).then((result) => {
-      this.setState({
-        lastId: result.lastId,
-        dataSource: this.state.dataSource.cloneWithRows(result.items)
-      });
-    });
   }
 
   handleRowPress(data) {
-    this.props.navigator.push({ name: 'Topic', data: data });
+    this.props.navigator.push({ name: 'Subreddit', subreddit: data.name });
   }
 
   renderRow(item) {
-    let image = item.image ? (
-      <Image
-      source={ { uri: item.image } }
-      style={styles.cellImage}
-      />
-    ) : null;
     return (
       <TouchableHighlight onPress={this.handleRowPress.bind(this, item)}>
         <View style={styles.row}>
-          {image}
           <View style={styles.textContainer}>
             <Text style={styles.title}>
-              {item.title}
+              {item.name}
             </Text>
-            <View style={styles.info}>
-              <Text style={styles.domain} numberOfLines={1}>
-                {item.domain}
-              </Text>
-              <Text style={styles.time} numberOfLines={1}>
-                {relativeDate(item.created)}
-              </Text>
-            </View>
           </View>
           <View style={styles.cellBorder} />
         </View>
@@ -131,4 +102,4 @@ class Subreddit extends React.Component {
   }
 }
 
-module.exports = Subreddit;
+module.exports = Favorites;

@@ -1,9 +1,9 @@
 import React from 'react-native';
 import Auth from '../auth';
-import querystring from 'querystring';
 
 import Subreddit from './Subreddit';
 import Topic from './Topic';
+import Favorites from './Favorites';
 
 let {
   View,
@@ -89,7 +89,7 @@ class App extends React.Component {
 
     return (
       <Navigator
-        initialRoute={{name: 'Subreddit', index: 0}}
+        initialRoute={{name: 'Favorites', index: 0}}
         navigationBar={
           <Navigator.NavigationBar
             routeMapper={NavigationBarRouteMapper}
@@ -98,7 +98,9 @@ class App extends React.Component {
         renderScene={(route, navigator) => {
           let page = null;
           if (route.name === 'Subreddit') {
-            page = <Subreddit navigator={navigator} name='all'/>;
+            page = <Subreddit navigator={navigator} name={route.subreddit}/>;
+          } else if (route.name === 'Favorites') {
+            page = <Favorites navigator={navigator}/>;
           } else if (route.name === 'Topic') {
             page = <Topic navigator={navigator} data={route.data}/>;
           }
