@@ -35,15 +35,17 @@ var styles = StyleSheet.create({
 
 let NavigationBarRouteMapper = {
   LeftButton(route, navigator, index) {
-    return (
-      <TouchableHighlight onPress={() => {
-        if (index > 0) {
-          navigator.pop();
-        }
-      }}>
+    if (index > 0) {
+      return (
+        <TouchableHighlight onPress={() => {
+          if (index > 0) {
+            navigator.pop();
+          }
+        }}>
         <Text>Back</Text>
-      </TouchableHighlight>
-    );
+        </TouchableHighlight>
+      );
+    }
   },
 
   RightButton() {
