@@ -34,8 +34,16 @@ var styles = StyleSheet.create({
 });
 
 let NavigationBarRouteMapper = {
-  LeftButton() {
-    return null;
+  LeftButton(route, navigator, index) {
+    return (
+      <TouchableHighlight onPress={() => {
+        if (index > 0) {
+          navigator.pop();
+        }
+      }}>
+        <Text>Back</Text>
+      </TouchableHighlight>
+    );
   },
 
   RightButton() {
