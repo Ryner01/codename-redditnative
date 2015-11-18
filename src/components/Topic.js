@@ -67,7 +67,6 @@ class Topic extends React.Component {
     };
 
     Api.getComments(this.props.data.subreddit, this.props.data.id).then((result) => {
-      console.log(result);
       this.setState({
         detail: result.detail,
         dataSource: this.state.dataSource.cloneWithRows(result.comments),
