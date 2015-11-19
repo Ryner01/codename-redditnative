@@ -7,8 +7,8 @@ let {
   Text,
   StyleSheet,
   Image,
-  ListView,
-  ScrollView
+  ScrollView,
+  PixelRatio
 } = React;
 
 var styles = StyleSheet.create({
@@ -26,8 +26,18 @@ var styles = StyleSheet.create({
     padding: 10
   },
 
+  row: {
+    paddingTop: 5,
+    paddingBottom: 5
+  },
+
   comments: {
     padding: 10
+  },
+
+  cellBorder: {
+    backgroundColor: 'rgba(0, 0, 0, 0.3)',
+    height: 1 / PixelRatio.get()
   },
 
   nested: {
@@ -43,10 +53,15 @@ var styles = StyleSheet.create({
     marginRight: 10,
     width: 60
   },
-  title: {
+  text: {
     flex: 1,
     fontSize: 16,
     fontWeight: 'bold',
+    marginBottom: 2
+  },
+  comment: {
+    flex: 1,
+    fontSize: 16,
     marginBottom: 2
   },
   info: {
@@ -55,6 +70,10 @@ var styles = StyleSheet.create({
     justifyContent: 'space-between'
   },
   domain: {
+    color: '#999999',
+    fontSize: 12
+  },
+  author: {
     color: '#999999',
     fontSize: 12
   },
@@ -68,27 +87,25 @@ class Topic extends React.Component {
   constructor(props) {
     super(props);
 
-    let ds = new ListView.DataSource({
-      rowHasChanged: (r1, r2) => {
-        return r1 !== r2;
-      }
-    });
-
     this.state = {
-      dataSource: ds.cloneWithRows([]),
+      comments: [],
       loading: true
     };
 
     Api.getComments(this.props.data.subreddit, this.props.data.id).then((result) => {
       this.setState({
         detail: result.detail,
-        dataSource: this.state.dataSource.cloneWithRows(result.comments),
+        comments: result.comments,
         loading: false
       });
     });
   }
 
   renderComment(item) {
+    if (item.more) {
+      return <Text key={item.id}>MORE BUTTON</Text>;
+    }
+
     var nested = null;
 
     if (item.comments && item.comments.length) {
@@ -102,15 +119,15 @@ class Topic extends React.Component {
     return (
       <View style={styles.row} key={item.id}>
         <View style={styles.textContainer}>
-          <Text style={styles.domain}>
+          <Text style={styles.author}>
             {item.author}
           </Text>
-          <Text style={styles.title}>
+          <Text style={styles.comment}>
             {item.text}
           </Text>
         </View>
-        {nested}
         <View style={styles.cellBorder} />
+        {nested}
       </View>
     );
   }
@@ -149,10 +166,7 @@ class Topic extends React.Component {
             </View>
           </View>
           <View style={styles.comments}>
-            <ListView
-              dataSource={this.state.dataSource}
-              renderRow={this.renderComment.bind(this)}
-            />
+            {this.state.comments.map(this.renderComment.bind(this))}
           </View>
         </ScrollView>
       </View>
