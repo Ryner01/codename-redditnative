@@ -138,6 +138,9 @@ class Topic extends React.Component {
           <Text style={styles.author}>
             {item.author}
           </Text>
+          <Text>
+            {item.score}
+          </Text>
           <Text style={styles.comment}>
             {item.text}
           </Text>

@@ -12,6 +12,8 @@ const {
   TouchableHighlight
 } = React;
 
+import SafariView from 'react-native-safari-view';
+
 var styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -90,7 +92,13 @@ class Subreddit extends React.Component {
   }
 
   handleRowPress(data) {
-    this.props.navigator.push({ navTitle: 'Post', name: 'Topic', data: data });
+    if (data.external) {
+      SafariView.show({
+        url: data.url
+      });
+    } else {
+      this.props.navigator.push({ navTitle: 'Post', name: 'Topic', data: data });
+    }
   }
 
   renderRow(item) {
