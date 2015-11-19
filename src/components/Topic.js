@@ -30,6 +30,10 @@ var styles = StyleSheet.create({
     padding: 10
   },
 
+  nested: {
+    marginLeft: 10
+  },
+
   textContainer: {
     flex: 1
   },
@@ -85,8 +89,18 @@ class Topic extends React.Component {
   }
 
   renderComment(item) {
+    var nested = null;
+
+    if (item.comments && item.comments.length) {
+      nested = (
+        <View style={styles.nested}>
+          {item.comments.map(this.renderComment.bind(this))}
+        </View>
+      );
+    }
+
     return (
-      <View style={styles.row}>
+      <View style={styles.row} key={item.id}>
         <View style={styles.textContainer}>
           <Text style={styles.domain}>
             {item.author}
@@ -95,6 +109,7 @@ class Topic extends React.Component {
             {item.text}
           </Text>
         </View>
+        {nested}
         <View style={styles.cellBorder} />
       </View>
     );
