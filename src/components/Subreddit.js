@@ -39,6 +39,10 @@ var styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 2
   },
+  score: {
+    fontSize: 13,
+    color: '#999999'
+  },
   info: {
     flex: 1,
     flexDirection: 'row',
@@ -101,6 +105,9 @@ class Subreddit extends React.Component {
         <View style={styles.row}>
           {image}
           <View style={styles.textContainer}>
+            <Text style={styles.score}>
+              {item.score}
+            </Text>
             <Text style={styles.title}>
               {item.title}
             </Text>

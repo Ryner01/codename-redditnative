@@ -35,6 +35,22 @@ var styles = StyleSheet.create({
     padding: 10
   },
 
+  title: {
+    flex: 1,
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 2
+  },
+
+  detailText: {
+    fontSize: 14,
+  },
+
+  score: {
+    fontSize: 13,
+    color: '#999999'
+  },
+
   cellBorder: {
     backgroundColor: 'rgba(0, 0, 0, 0.3)',
     height: 1 / PixelRatio.get()
@@ -151,6 +167,9 @@ class Topic extends React.Component {
             <View style={styles.detail}>
               {image}
               <View style={styles.textContainer}>
+                <Text style={styles.score}>
+                  {item.score}
+                </Text>
                 <Text style={styles.title}>
                   {item.title}
                 </Text>
@@ -162,6 +181,9 @@ class Topic extends React.Component {
                     {relativeDate(item.created)}
                   </Text>
                 </View>
+                <Text style={styles.detailText}>
+                  {item.text}
+                </Text>
               </View>
             </View>
           </View>
