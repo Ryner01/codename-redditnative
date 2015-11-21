@@ -27,8 +27,13 @@ var styles = StyleSheet.create({
   },
 
   row: {
-    paddingTop: 5,
-    paddingBottom: 5
+    backgroundColor: 'rgba(10, 0, 106, 0.06)',
+  },
+
+  comment: {
+    padding: 5,
+    marginBottom: 5,
+    backgroundColor: 'white'
   },
 
   comments: {
@@ -75,7 +80,7 @@ var styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 2
   },
-  comment: {
+  commentText: {
     flex: 1,
     fontSize: 16,
     marginBottom: 2
@@ -134,18 +139,19 @@ class Topic extends React.Component {
 
     return (
       <View style={styles.row} key={item.id}>
-        <View style={styles.textContainer}>
-          <Text style={styles.author}>
-            {item.author}
-          </Text>
-          <Text>
-            {item.score}
-          </Text>
-          <Text style={styles.comment}>
-            {item.text}
-          </Text>
+        <View style={styles.comment}>
+          <View style={styles.textContainer}>
+            <Text style={styles.author}>
+              {item.author}
+            </Text>
+            <Text>
+              {item.score}
+            </Text>
+            <Text style={styles.commentText}>
+              {item.text}
+            </Text>
+          </View>
         </View>
-        <View style={styles.cellBorder} />
         {nested}
       </View>
     );
