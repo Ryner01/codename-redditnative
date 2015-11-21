@@ -54,6 +54,10 @@ var styles = StyleSheet.create({
     color: '#999999',
     fontSize: 12
   },
+  numberOfComments: {
+    color: '#999999',
+    fontSize: 12
+  },
   time: {
     fontSize: 12,
     color: '#cccccc'
@@ -122,6 +126,9 @@ class Subreddit extends React.Component {
             <View style={styles.info}>
               <Text style={styles.domain} numberOfLines={1}>
                 {item.domain}
+              </Text>
+              <Text style={styles.numberOfComments} numberOfLines={1}>
+                {item.commentCounts} comments
               </Text>
               <Text style={styles.time} numberOfLines={1}>
                 {relativeDate(item.created)}
