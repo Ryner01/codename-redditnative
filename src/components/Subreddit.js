@@ -55,6 +55,10 @@ var styles = StyleSheet.create({
     color: '#999999',
     fontSize: 12
   },
+  subredditName: {
+    color: '#999999',
+    fontSize: 12
+  },
   time: {
     fontSize: 12,
     color: '#cccccc'
@@ -70,7 +74,8 @@ var styles = StyleSheet.create({
     paddingTop: 10,
     paddingBottom: 10,
     color: '#999999',
-    fontSize: 12
+    fontSize: 12,
+    backgroundColor: 'white'
   }
 });
 
@@ -149,11 +154,17 @@ class Subreddit extends React.Component {
     var postColor = 'white';
 
     if (item.nsfw) {
-      postColor = 'rgba(255, 100, 0, 0.1)';
+      postColor = 'rgb(255, 240, 229)';
     }
     if (item.pinned) {
-      postColor = 'rgba(0, 255, 100, 0.1)';
+      postColor = 'rgb(229, 255, 240)';
     }
+
+    let subreddit = item.subreddit === this.props.name ? null : (
+      <Text style={styles.subredditName} numberOfLines={1}>
+        {item.subreddit}
+      </Text>
+    );
 
     return (
       <View>
@@ -171,6 +182,7 @@ class Subreddit extends React.Component {
                 <Text style={styles.domain} numberOfLines={1}>
                   {item.domain}
                 </Text>
+                {subreddit}
                 <Text style={styles.time} numberOfLines={1}>
                   {relativeDate(item.created)}
                 </Text>
