@@ -119,17 +119,16 @@ class Topic extends React.Component {
   }
 
   componentDidMount() {
-    let cacheKey = `${this.props.data.subreddit}-${this.props.data.id}`;
-    if (resultsCache[cacheKey] != null) {
+    if (resultsCache[this.props.data.id] != null) {
       InteractionManager.runAfterInteractions(() => {
         this.setState({
-          comments: resultsCache[cacheKey],
+          comments: resultsCache[this.props.data.id],
           loading: false
         });
       });
     } else {
-      Api.getComments(this.props.data.subreddit, this.props.data.id).then((result) => {
-        resultsCache[cacheKey] = result.comments;
+      Api.getComments(this.props.data.id).then((result) => {
+        resultsCache[this.props.data.id] = result.comments;
         InteractionManager.runAfterInteractions(() => {
           this.setState({
             comments: result.comments,

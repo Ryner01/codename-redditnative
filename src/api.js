@@ -34,14 +34,14 @@ let API = {
       });
   },
 
-  getComments(subreddit, id, options) {
+  getComments(id, options) {
     options = extend(true, {
       sort: 'hot'
     }, options);
 
     animateNetworkOn();
 
-    return fetch(`${API.URL}r/${subreddit}/comments/${id}.json?sort=${options.sort}`)
+    return fetch(`${API.URL}/comments/${id}.json?sort=${options.sort}`)
       .then(animateNetworkOff)
       .then(res => res.json())
       .then(data => {
