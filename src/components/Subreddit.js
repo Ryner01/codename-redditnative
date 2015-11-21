@@ -73,8 +73,6 @@ var styles = StyleSheet.create({
     alignItems: 'center',
     paddingTop: 10,
     paddingBottom: 10,
-    color: '#999999',
-    fontSize: 12,
     backgroundColor: 'white'
   }
 });
