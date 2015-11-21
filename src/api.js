@@ -1,5 +1,17 @@
 import extend from 'extend';
 
+const { StatusBarIOS } = require('react-native');
+
+let animateNetworkOn = (value) => {
+  StatusBarIOS.setNetworkActivityIndicatorVisible(true);
+  return value;
+};
+
+let animateNetworkOff = (value) => {
+  StatusBarIOS.setNetworkActivityIndicatorVisible(false);
+  return value;
+};
+
 let API = {
   URL: 'http://www.reddit.com/',
 
@@ -9,7 +21,10 @@ let API = {
       sort: 'hot'
     }, options);
 
+    animateNetworkOn();
+
     return fetch(API.URL + 'r/' + subreddit + '/' + options.sort + '.json?after=' + options.lastId)
+      .then(animateNetworkOff)
       .then(res => res.json())
       .then((data) => {
         return {
@@ -24,7 +39,10 @@ let API = {
       sort: 'hot'
     }, options);
 
+    animateNetworkOn();
+
     return fetch(API.URL + 'r/' + subreddit + '/comments/' + id + '.json?sort=' + options.sort)
+      .then(animateNetworkOff)
       .then(res => res.json())
       .then(data => {
         return {
