@@ -5,10 +5,4 @@ const {
   AppRegistry
 } = React;
 
-class Reddit extends React.Component {
-  render() {
-    return <App />;
-  }
-}
-
-AppRegistry.registerComponent('App', () => Reddit);
+AppRegistry.registerComponent('App', () => App);
