@@ -1,6 +1,7 @@
 import React from 'react-native';
 import relativeDate from '../utils/relative-date';
 import Api from '../api';
+import Markdown from 'react-native-markdown';
 
 let {
   View,
@@ -221,9 +222,9 @@ class Topic extends React.Component {
                     {relativeDate(item.created)}
                   </Text>
                 </View>
-                <Text style={styles.detailText}>
+                <Markdown>
                   {item.text}
-                </Text>
+                </Markdown>
               </View>
             </View>
           </View>
