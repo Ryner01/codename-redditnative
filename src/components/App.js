@@ -10,7 +10,8 @@ let {
   Text,
   TouchableHighlight,
   StyleSheet,
-  Navigator
+  Navigator,
+  TabBarIOS,
 } = React;
 
 var styles = StyleSheet.create({
@@ -67,6 +68,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       authenticated: true,
+      tab: 'default'
     };
 
     this.auth = new Auth();
@@ -79,27 +81,21 @@ class App extends React.Component {
     };
   }
 
-  handleLoginButton() {
-    this.auth.login(() => {
-      this.setState({
-        authenticated: true
-      });
-    });
+  _renderSettings() {
+    return (
+      <Text>Settings</Text>
+    );
   }
 
-  render() {
-    if (!this.state.authenticated) {
-      return (
-        <View style={styles.container}>
-          <TouchableHighlight style={styles.button} onPress={this.handleLoginButton.bind(this)}>
-            <Text style={styles.buttonText}>Login</Text>
-          </TouchableHighlight>
-        </View>
-      );
-    }
-
+  _renderSearch() {
     return (
-      <Navigator
+      <Text>Search</Text>
+    );
+  }
+
+  _renderDefault() {
+    return (
+      <Navigator ref="nav"
         initialRoute={{name: 'Favorites', index: 0}}
         navigationBar={
           <Navigator.NavigationBar
@@ -119,6 +115,60 @@ class App extends React.Component {
           return <View style={styles.pageContainer}>{page}</View>;
         }}
         />
+    );
+  }
+
+  handleLoginButton() {
+    this.auth.login(() => {
+      this.setState({
+        authenticated: true
+      });
+    });
+  }
+
+  handleTabBarPress(name) {
+    if (this.state.tab === name) {
+      this.refs.nav.popToTop();
+    }
+
+    this.setState({ tab: name });
+  }
+
+  render() {
+    if (!this.state.authenticated) {
+      return (
+        <View style={styles.container}>
+          <TouchableHighlight style={styles.button} onPress={this.handleLoginButton.bind(this)}>
+            <Text style={styles.buttonText}>Login</Text>
+          </TouchableHighlight>
+        </View>
+      );
+    }
+
+    return (
+      <TabBarIOS>
+        <TabBarIOS.Item
+          title="Favories"
+          systemIcon="favorites"
+          selected={this.state.tab === 'default'}
+          onPress={this.handleTabBarPress.bind(this, 'default')}>
+          {this._renderDefault()}
+        </TabBarIOS.Item>
+        <TabBarIOS.Item
+          title="Search"
+          systemIcon="search"
+          selected={this.state.tab === 'search'}
+          onPress={this.handleTabBarPress.bind(this, 'search')}>
+          {this._renderSettings()}
+        </TabBarIOS.Item>
+        <TabBarIOS.Item
+          title="Settings"
+          systemIcon="more"
+          selected={this.state.tab === 'settings'}
+          onPress={this.handleTabBarPress.bind(this, 'settings')}>
+          {this._renderSearch()}
+        </TabBarIOS.Item>
+      </TabBarIOS>
     );
   }
 }
