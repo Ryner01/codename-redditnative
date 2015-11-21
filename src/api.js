@@ -23,7 +23,7 @@ let API = {
 
     animateNetworkOn();
 
-    return fetch(API.URL + 'r/' + subreddit + '/' + options.sort + '.json?after=' + options.lastId)
+    return fetch(`${API.URL}r/${subreddit}/${options.sort}.json?after=${options.lastId}`)
       .then(animateNetworkOff)
       .then(res => res.json())
       .then((data) => {
@@ -41,7 +41,7 @@ let API = {
 
     animateNetworkOn();
 
-    return fetch(API.URL + 'r/' + subreddit + '/comments/' + id + '.json?sort=' + options.sort)
+    return fetch(`${API.URL}r/${subreddit}/comments/${id}.json?sort=${options.sort}`)
       .then(animateNetworkOff)
       .then(res => res.json())
       .then(data => {
