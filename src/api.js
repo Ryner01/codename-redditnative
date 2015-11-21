@@ -34,6 +34,14 @@ let API = {
       });
   },
 
+  findSubreddits(name) {
+    animateNetworkOn();
+
+    return fetch(`${API.URL}/api/search_reddit_names.json?query=${name}`, { method: 'POST' })
+      .then(animateNetworkOff)
+      .then(res => res.json());
+  },
+
   getComments(id, options) {
     options = extend(true, {
       sort: 'hot'
