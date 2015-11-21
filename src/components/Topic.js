@@ -8,7 +8,9 @@ let {
   StyleSheet,
   Image,
   ScrollView,
-  PixelRatio
+  PixelRatio,
+  InteractionManager,
+  ActivityIndicatorIOS
 } = React;
 
 var styles = StyleSheet.create({
@@ -104,6 +106,8 @@ var styles = StyleSheet.create({
   }
 });
 
+let resultsCache = {};
+
 class Topic extends React.Component {
   constructor(props) {
     super(props);
@@ -112,14 +116,28 @@ class Topic extends React.Component {
       comments: [],
       loading: true
     };
+  }
 
-    Api.getComments(this.props.data.subreddit, this.props.data.id).then((result) => {
-      this.setState({
-        detail: result.detail,
-        comments: result.comments,
-        loading: false
+  componentDidMount() {
+    let cacheKey = `${this.props.data.subreddit}-${this.props.data.id}`;
+    if (resultsCache[cacheKey] != null) {
+      InteractionManager.runAfterInteractions(() => {
+        this.setState({
+          comments: resultsCache[cacheKey],
+          loading: false
+        });
       });
-    });
+    } else {
+      Api.getComments(this.props.data.subreddit, this.props.data.id).then((result) => {
+        resultsCache[cacheKey] = result.comments;
+        InteractionManager.runAfterInteractions(() => {
+          this.setState({
+            comments: result.comments,
+            loading: false
+          });
+        });
+      });
+    }
   }
 
   renderComment(item) {
@@ -127,7 +145,7 @@ class Topic extends React.Component {
       return <Text key={item.id}>MORE BUTTON</Text>;
     }
 
-    var nested = null;
+    let nested = null;
 
     if (item.comments && item.comments.length) {
       nested = (
@@ -157,16 +175,30 @@ class Topic extends React.Component {
     );
   }
 
-  render() {
+  renderComments() {
+    let content = null;
+
     if (this.state.loading) {
-      return <Text>Loading</Text>;
+      content = <ActivityIndicatorIOS animating={this.state.loading}/>;
+    } else {
+      content = this.state.comments.map(this.renderComment.bind(this));
     }
 
-    let item = this.state.detail;
+    return (
+      <View style={styles.comments}>
+        <Text style={{ fontWeight: 'bold', fontSize: 14 }}>Comments</Text>
+        {content}
+      </View>
+    );
+  }
+
+  render() {
+    let item = this.props.data;
+
     let image = item.image ? (
       <Image
-      source={ { uri: item.image } }
-      style={styles.cellImage}
+        source={{uri: item.image}}
+        style={styles.cellImage}
       />
     ) : null;
     return (
@@ -196,9 +228,7 @@ class Topic extends React.Component {
               </View>
             </View>
           </View>
-          <View style={styles.comments}>
-            {this.state.comments.map(this.renderComment.bind(this))}
-          </View>
+          {this.renderComments()}
         </ScrollView>
       </View>
     );

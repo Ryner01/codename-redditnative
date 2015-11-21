@@ -9,7 +9,8 @@ const {
   StyleSheet,
   Image,
   PixelRatio,
-  TouchableHighlight
+  TouchableHighlight,
+  InteractionManager
 } = React;
 
 import SafariView from 'react-native-safari-view';
@@ -69,6 +70,8 @@ var styles = StyleSheet.create({
   }
 });
 
+let resultsCache = {};
+
 class Subreddit extends React.Component {
   static contextTypes = {
     auth: React.PropTypes.object
@@ -84,15 +87,37 @@ class Subreddit extends React.Component {
     });
 
     this.state = {
+      lastId: null,
+      items: [],
       dataSource: ds.cloneWithRows([]),
     };
+  }
 
-    Api.subreddit(this.props.name).then((result) => {
-      this.setState({
-        lastId: result.lastId,
-        dataSource: this.state.dataSource.cloneWithRows(result.items)
+  componentWillMount() {
+    let cacheKey = this.props.name;
+
+    if (resultsCache[cacheKey] != null) {
+      let data = resultsCache[cacheKey];
+      InteractionManager.runAfterInteractions(() => {
+        this.setState({
+          lastId: data.lastId,
+          items: data.items,
+          dataSource: this.state.dataSource.cloneWithRows(data.items)
+        });
       });
-    });
+    } else {
+      Api.subreddit(this.props.name).then((result) => {
+        resultsCache[cacheKey] = result;
+
+        InteractionManager.runAfterInteractions(() => {
+          this.setState({
+            lastId: result.lastId,
+            items: result.items,
+            dataSource: this.state.dataSource.cloneWithRows(result.items)
+          });
+        });
+      });
+    }
   }
 
   handleRowPress(data) {
