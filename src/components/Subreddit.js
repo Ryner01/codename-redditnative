@@ -55,10 +55,6 @@ var styles = StyleSheet.create({
     color: '#999999',
     fontSize: 12
   },
-  numberOfComments: {
-    color: '#999999',
-    fontSize: 12
-  },
   time: {
     fontSize: 12,
     color: '#cccccc'
@@ -67,6 +63,14 @@ var styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.1)',
     height: 1 / PixelRatio.get(),
     marginLeft: 4
+  },
+  commentButton: {
+    flex: 1,
+    alignItems: 'center',
+    paddingTop: 10,
+    paddingBottom: 10,
+    color: '#999999',
+    fontSize: 12
   }
 });
 
@@ -130,11 +134,15 @@ class Subreddit extends React.Component {
     }
   }
 
+  showComments(data) {
+    this.props.navigator.push({ navTitle: 'Post', name: 'Topic', data: data });
+  }
+
   renderRow(item) {
     let image = item.image ? (
       <Image
-      source={ { uri: item.image } }
-      style={styles.cellImage}
+        source={ { uri: item.image } }
+        style={styles.cellImage}
       />
     ) : null;
 
@@ -148,31 +156,35 @@ class Subreddit extends React.Component {
     }
 
     return (
-      <TouchableHighlight onPress={this.handleRowPress.bind(this, item)}>
-        <View style={[styles.row, { backgroundColor: postColor }]}>
-          {image}
-          <View style={styles.textContainer}>
-            <Text style={styles.score}>
-              {item.score}
-            </Text>
-            <Text style={styles.title}>
-              {item.title}
-            </Text>
-            <View style={styles.info}>
-              <Text style={styles.domain} numberOfLines={1}>
-                {item.domain}
+      <View>
+        <TouchableHighlight onPress={this.handleRowPress.bind(this, item)}>
+          <View style={[styles.row, { backgroundColor: postColor }]}>
+            {image}
+            <View style={styles.textContainer}>
+              <Text style={styles.score}>
+                {item.score}
               </Text>
-              <Text style={styles.numberOfComments} numberOfLines={1}>
-                {item.commentCounts} comments
+              <Text style={styles.title}>
+                {item.title}
               </Text>
-              <Text style={styles.time} numberOfLines={1}>
-                {relativeDate(item.created)}
-              </Text>
+              <View style={styles.info}>
+                <Text style={styles.domain} numberOfLines={1}>
+                  {item.domain}
+                </Text>
+                <Text style={styles.time} numberOfLines={1}>
+                  {relativeDate(item.created)}
+                </Text>
+              </View>
             </View>
           </View>
-          <View style={styles.cellBorder} />
-        </View>
-      </TouchableHighlight>
+        </TouchableHighlight>
+        <TouchableHighlight onPress={this.showComments.bind(this, item)}>
+          <View style={styles.commentButton}>
+            <Text>{item.commentCounts} comments</Text>
+          </View>
+        </TouchableHighlight>
+        <View style={styles.cellBorder} />
+      </View>
     );
   }
 
