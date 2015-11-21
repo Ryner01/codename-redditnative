@@ -112,9 +112,19 @@ class Subreddit extends React.Component {
       style={styles.cellImage}
       />
     ) : null;
+
+    var postColor = 'white';
+
+    if (item.nsfw) {
+      postColor = 'rgba(255, 100, 0, 0.1)';
+    }
+    if (item.pinned) {
+      postColor = 'rgba(0, 255, 100, 0.1)';
+    }
+
     return (
       <TouchableHighlight onPress={this.handleRowPress.bind(this, item)}>
-        <View style={styles.row}>
+        <View style={[styles.row, { backgroundColor: postColor }]}>
           {image}
           <View style={styles.textContainer}>
             <Text style={styles.score}>
