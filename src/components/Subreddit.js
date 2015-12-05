@@ -113,7 +113,8 @@ class Subreddit extends React.Component {
         });
       });
     } else {
-      Api.subreddit(this.props.name).then((result) => {
+      Api.subreddit(this.props.name, this.context.auth).then((result) => {
+        console.log(result);
         resultsCache[cacheKey] = result;
 
         InteractionManager.runAfterInteractions(() => {

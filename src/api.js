@@ -14,24 +14,38 @@ let animateNetworkOff = (value) => {
 
 let API = {
   URL: 'http://www.reddit.com/',
+  AUTH_URL: 'https://oauth.reddit.com/',
 
-  subreddit(subreddit, options) {
+  subreddit(subreddit, auth, options) {
     options = extend(true, {
       lastId: '',
       sort: 'hot'
     }, options);
 
     animateNetworkOn();
+    let request = null;
 
-    return fetch(`${API.URL}r/${subreddit}/${options.sort}.json?after=${options.lastId}`)
-      .then(animateNetworkOff)
-      .then(res => res.json())
-      .then((data) => {
-        return {
-          lastId: data.data.after,
-          items: data.data.children.map(API._formatTopic)
-        };
+    if (subreddit === 'frontpage') {
+      request = new Request(`${API.AUTH_URL}?after=${options.lastId}`, {
+        headers: new Headers({
+          'Content-Type': 'text/plain',
+          'Authorization': `Bearer ${auth.token.access_token}`
+        })
       });
+    }else{
+      request = new Request(`${API.URL}r/${subreddit}/${options.sort}.json?after=${options.lastId}`);
+    }
+
+    return fetch(request)
+    .then(animateNetworkOff)
+    .then(res => res.json())
+    .then((data) => {
+      console.log(data);
+      return {
+        lastId: data.data.after,
+        items: data.data.children.map(API._formatTopic)
+      };
+    });
   },
 
   findSubreddits(name) {

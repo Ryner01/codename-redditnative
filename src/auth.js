@@ -7,7 +7,8 @@ import querystring from 'querystring';
 const ACCESS_TOKEN_URL = `https://www.reddit.com/api/v1/access_token`;
 
 let stateString = Math.random().toString();
-let authorizeURL = `https://www.reddit.com/api/v1/authorize.compact?client_id=${config.APP_KEY}&response_type=code&state=${stateString}&redirect_uri=nativeforreddit://login&duration=permanent&scope=identity`;
+let scope = 'identity read mysubreddits'
+let authorizeURL = `https://www.reddit.com/api/v1/authorize.compact?client_id=${config.APP_KEY}&response_type=code&state=${stateString}&redirect_uri=nativeforreddit://login&duration=permanent&scope=${scope}`;
 
 let {
   LinkingIOS

@@ -67,7 +67,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      authenticated: true,
+      authenticated: false,
       tab: 'default'
     };
 
@@ -91,6 +91,18 @@ class App extends React.Component {
     return (
       <Text>Search</Text>
     );
+  }
+
+  _renderFrontPage() {
+    if (this.state.authenticated) {
+      return (
+        <Subreddit navigator={navigator} name='frontpage'/>
+      );
+    }else {
+      return (
+        <Subreddit navigator={navigator} name='all'/>
+      );
+    };
   }
 
   _renderDefault() {
@@ -153,6 +165,13 @@ class App extends React.Component {
           selected={this.state.tab === 'default'}
           onPress={this.handleTabBarPress.bind(this, 'default')}>
           {this._renderDefault()}
+        </TabBarIOS.Item>
+        <TabBarIOS.Item
+          title="Frontpage"
+          systemIcon="most-viewed"
+          selected={this.state.tab === 'frontpage'}
+          onPress={this.handleTabBarPress.bind(this, 'frontpage')}>
+          {this._renderFrontPage()}
         </TabBarIOS.Item>
         <TabBarIOS.Item
           title="Search"
