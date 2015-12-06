@@ -4,6 +4,7 @@ import Auth from '../auth';
 import Subreddit from './Subreddit';
 import Topic from './Topic';
 import Favorites from './Favorites';
+import Settings from './Settings.js';
 
 let {
   View,
@@ -19,18 +20,6 @@ var styles = StyleSheet.create({
     marginTop: 70,
     backgroundColor: 'white',
     flex: 1
-  },
-  buttonText: {
-    fontSize: 18,
-    color: 'white',
-    alignSelf: 'center'
-  },
-  button: {
-    height: 44,
-    flexDirection: 'row',
-    backgroundColor: '#48BBEC',
-    alignSelf: 'stretch',
-    justifyContent: 'center'
   }
 });
 
@@ -83,7 +72,8 @@ class App extends React.Component {
 
   _renderSettings() {
     return (
-      <Text>Settings</Text>
+      //TODO -> Passing function as a props is not a good practice
+      <Settings login={this.handleLoginButton.bind(this)} />
     );
   }
 
@@ -142,6 +132,7 @@ class App extends React.Component {
   }
 
   handleLoginButton() {
+    console.log('active');
     this.auth.login(() => {
       this.setState({
         authenticated: true
@@ -158,16 +149,6 @@ class App extends React.Component {
   }
 
   render() {
-    if (!this.state.authenticated) {
-      return (
-        <View style={styles.container}>
-          <TouchableHighlight style={styles.button} onPress={this.handleLoginButton.bind(this)}>
-            <Text style={styles.buttonText}>Login</Text>
-          </TouchableHighlight>
-        </View>
-      );
-    }
-
     return (
       <TabBarIOS>
         <TabBarIOS.Item
@@ -178,8 +159,8 @@ class App extends React.Component {
           {this._renderDefault()}
         </TabBarIOS.Item>
         <TabBarIOS.Item
-          title="Favories"
-          systemIcon="favorites"
+          title="Frontpage"
+          systemIcon="featured"
           selected={this.state.tab === 'frontpage'}
           onPress={this.handleTabBarPress.bind(this, 'frontpage')}>
           {this._renderFrontpage()}
@@ -189,14 +170,14 @@ class App extends React.Component {
           systemIcon="search"
           selected={this.state.tab === 'search'}
           onPress={this.handleTabBarPress.bind(this, 'search')}>
-          {this._renderSettings()}
+          {this._renderSearch()}
         </TabBarIOS.Item>
         <TabBarIOS.Item
           title="Settings"
           systemIcon="more"
           selected={this.state.tab === 'settings'}
           onPress={this.handleTabBarPress.bind(this, 'settings')}>
-          {this._renderSearch()}
+          {this._renderSettings()}
         </TabBarIOS.Item>
       </TabBarIOS>
     );

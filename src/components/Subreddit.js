@@ -108,8 +108,17 @@ class Subreddit extends React.Component {
   }
 
   componentWillMount() {
-    console.log(this.context.auth);
-    let cacheKey = this.props.name;
+
+    let name = this.props.name;
+    if (this.props.name === undefined) {
+      if (this.context.auth.token !== null) {
+        name = 'frontpage'
+      } else {
+        name = 'all'
+      };
+    }
+    console.log(name);
+    let cacheKey = name;
 
     if (resultsCache[cacheKey] != null) {
       let data = resultsCache[cacheKey];
@@ -121,17 +130,8 @@ class Subreddit extends React.Component {
         });
       });
     } else {
-
-      let name = this.props.name;
-      if (this.props.name === undefined) {
-        if (this.context.auth.token !== null) {
-          name = 'frontpage'
-        } else {
-          name = 'all'
-        };
-      }
-
       Api.subreddit(name, this.context.auth).then((result) => {
+        console.log('selected:' + name);
         resultsCache[cacheKey] = result;
 
         InteractionManager.runAfterInteractions(() => {
@@ -216,18 +216,9 @@ class Subreddit extends React.Component {
     );
   }
 
-  renderUnauthenticated() {
-    if (this.context.auth.token !== null) {
-      return (
-        <Text style={styles.signInText}>This is /r/All. Sign in to see your front page</Text>
-      );
-    }
-  }
-
   render() {
     return (
       <View style={styles.container}>
-        {this.renderUnauthenticated()}
         <ListView
           style={styles.subredditContainer}
           dataSource={this.state.dataSource}

@@ -35,7 +35,7 @@ let API = {
     }else{
       request = new Request(`${API.URL}r/${subreddit}/${options.sort}.json?after=${options.lastId}`);
     }
-
+    console.log(request);
     return fetch(request)
       .then(animateNetworkOff)
       .then(res => res.json())
