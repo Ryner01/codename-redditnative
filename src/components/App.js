@@ -84,6 +84,7 @@ class App extends React.Component {
   }
 
   _renderFrontpage() {
+    //hele ja nevim jak to proste udelat. Abych mel 2 navigatory a zaroven jenom jeden... Tak jsem to udelal takhe
     return (
       <Navigator ref="frontPageNav"
         initialRoute={{name: 'Subreddit', index: 0}}
