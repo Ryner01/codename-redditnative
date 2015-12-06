@@ -1,6 +1,7 @@
 import React from 'react-native';
 import Api from '../api';
 import relativeDate from '../utils/relative-date';
+import RefreshableListView from 'react-native-refreshable-listview';
 
 const {
   Text,
@@ -145,6 +146,27 @@ class Subreddit extends React.Component {
     }
   }
 
+  handleRefresh() {
+    let name = this.props.name;
+    if (this.props.name === undefined) {
+      if (this.context.auth.token !== null) {
+        name = 'frontpage'
+      } else {
+        name = 'all'
+      };
+    }
+    return new Promise((resolve, reject) => {
+      Api.subreddit(name, this.context.auth).then((result) => {
+        resolve();
+        this.setState({
+          lastId: result.lastId,
+          items: result.items,
+          dataSource: this.state.dataSource.cloneWithRows(result.items)
+        });
+      });
+    });
+  }
+
   handleRowPress(data) {
     if (data.external) {
       SafariView.show({
@@ -219,10 +241,12 @@ class Subreddit extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <ListView
+        <RefreshableListView
           style={styles.subredditContainer}
           dataSource={this.state.dataSource}
           renderRow={this.renderRow.bind(this)}
+          loadData={this.handleRefresh.bind(this)}
+          refreshDescription="Refreshing..."
         />
       </View>
     );
