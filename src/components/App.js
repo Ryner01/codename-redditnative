@@ -67,7 +67,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      authenticated: false,
+      authenticated: true,
       tab: 'default'
     };
 
@@ -93,21 +93,32 @@ class App extends React.Component {
     );
   }
 
-  _renderFrontPage() {
-    if (this.state.authenticated) {
-      return (
-        <Subreddit navigator={navigator} name='frontpage'/>
-      );
-    }else {
-      return (
-        <Subreddit navigator={navigator} name='all'/>
-      );
-    };
+  _renderFrontpage() {
+    return (
+      <Navigator ref="frontPageNav"
+        initialRoute={{name: 'Subreddit', index: 0}}
+        navigationBar={
+          <Navigator.NavigationBar
+            routeMapper={NavigationBarRouteMapper}
+          />
+        }
+        renderScene={(route, navigator) => {
+          let page = null;
+          if (route.name === 'Subreddit') {
+            page = <Subreddit navigator={navigator} name={route.subreddit}/>;
+          } else if (route.name === 'Topic') {
+            page = <Topic navigator={navigator} data={route.data}/>;
+          }
+
+          return <View style={styles.pageContainer}>{page}</View>;
+        }}
+        />
+    );
   }
 
   _renderDefault() {
     return (
-      <Navigator ref="nav"
+      <Navigator ref="favNav"
         initialRoute={{name: 'Favorites', index: 0}}
         navigationBar={
           <Navigator.NavigationBar
@@ -140,7 +151,7 @@ class App extends React.Component {
 
   handleTabBarPress(name) {
     if (this.state.tab === name) {
-      this.refs.nav.popToTop();
+      this.refs.favNav.popToTop();
     }
 
     this.setState({ tab: name });
@@ -167,11 +178,11 @@ class App extends React.Component {
           {this._renderDefault()}
         </TabBarIOS.Item>
         <TabBarIOS.Item
-          title="Frontpage"
-          systemIcon="most-viewed"
+          title="Favories"
+          systemIcon="favorites"
           selected={this.state.tab === 'frontpage'}
           onPress={this.handleTabBarPress.bind(this, 'frontpage')}>
-          {this._renderFrontPage()}
+          {this._renderFrontpage()}
         </TabBarIOS.Item>
         <TabBarIOS.Item
           title="Search"

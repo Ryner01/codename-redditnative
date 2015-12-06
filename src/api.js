@@ -37,14 +37,13 @@ let API = {
     }
 
     return fetch(request)
-    .then(animateNetworkOff)
-    .then(res => res.json())
-    .then((data) => {
-      console.log(data);
-      return {
-        lastId: data.data.after,
-        items: data.data.children.map(API._formatTopic)
-      };
+      .then(animateNetworkOff)
+      .then(res => res.json())
+      .then((data) => {
+        return {
+          lastId: data.data.after,
+          items: data.data.children.map(API._formatTopic)
+        };
     });
   },
 

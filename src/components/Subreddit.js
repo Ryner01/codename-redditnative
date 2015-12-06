@@ -20,6 +20,7 @@ var styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff'
   },
+
   row: {
     flex: 1,
     alignItems: 'center',
@@ -74,6 +75,12 @@ var styles = StyleSheet.create({
     paddingTop: 10,
     paddingBottom: 10,
     backgroundColor: 'white'
+  },
+  signInText: {
+    marginTop: 20,
+    fontSize: 12,
+    height: 20,
+    textAlign: 'center'
   }
 });
 
@@ -101,6 +108,7 @@ class Subreddit extends React.Component {
   }
 
   componentWillMount() {
+    console.log(this.context.auth);
     let cacheKey = this.props.name;
 
     if (resultsCache[cacheKey] != null) {
@@ -113,8 +121,17 @@ class Subreddit extends React.Component {
         });
       });
     } else {
-      Api.subreddit(this.props.name, this.context.auth).then((result) => {
-        console.log(result);
+
+      let name = this.props.name;
+      if (this.props.name === undefined) {
+        if (this.context.auth.token !== null) {
+          name = 'frontpage'
+        } else {
+          name = 'all'
+        };
+      }
+
+      Api.subreddit(name, this.context.auth).then((result) => {
         resultsCache[cacheKey] = result;
 
         InteractionManager.runAfterInteractions(() => {
@@ -199,10 +216,20 @@ class Subreddit extends React.Component {
     );
   }
 
+  renderUnauthenticated() {
+    if (this.context.auth.token !== null) {
+      return (
+        <Text style={styles.signInText}>This is /r/All. Sign in to see your front page</Text>
+      );
+    }
+  }
+
   render() {
     return (
       <View style={styles.container}>
+        {this.renderUnauthenticated()}
         <ListView
+          style={styles.subredditContainer}
           dataSource={this.state.dataSource}
           renderRow={this.renderRow.bind(this)}
         />
