@@ -21,7 +21,7 @@ let API = {
       lastId: '',
       sort: 'hot'
     }, options);
-
+    console.log(options);
     animateNetworkOn();
     let request = null;
 
@@ -32,10 +32,10 @@ let API = {
           'Authorization': `Bearer ${auth.token.access_token}`
         })
       });
-    }else{
+    } else {
       request = new Request(`${API.URL}r/${subreddit}/${options.sort}.json?after=${options.lastId}`);
     }
-    console.log(request);
+
     return fetch(request)
       .then(animateNetworkOff)
       .then(res => res.json())

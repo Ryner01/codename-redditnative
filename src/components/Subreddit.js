@@ -102,14 +102,13 @@ class Subreddit extends React.Component {
     });
 
     this.state = {
-      lastId: null,
+      lastId: '',
       items: [],
       dataSource: ds.cloneWithRows([]),
     };
   }
 
   componentWillMount() {
-
     let name = this.props.name;
     if (this.props.name === undefined) {
       if (this.context.auth.token !== null) {
@@ -118,7 +117,6 @@ class Subreddit extends React.Component {
         name = 'all'
       };
     }
-    console.log(name);
     let cacheKey = name;
 
     if (resultsCache[cacheKey] != null) {
@@ -162,6 +160,29 @@ class Subreddit extends React.Component {
           lastId: result.lastId,
           items: result.items,
           dataSource: this.state.dataSource.cloneWithRows(result.items)
+        });
+      });
+    });
+  }
+
+  loadMoreRows() {
+    let name = this.props.name;
+    if (this.props.name === undefined) {
+      if (this.context.auth.token !== null) {
+        name = 'frontpage'
+      } else {
+        name = 'all'
+      };
+    }
+
+    let currentItems = this.state.items;
+    Api.subreddit(name, this.context.auth, {lastId: this.state.lastId}).then((result) => {
+      let updatedItems = currentItems.concat(result.items);
+      InteractionManager.runAfterInteractions(() => {
+        this.setState({
+          lastId: result.lastId,
+          items: updatedItems,
+          dataSource: this.state.dataSource.cloneWithRows(updatedItems)
         });
       });
     });
@@ -247,6 +268,8 @@ class Subreddit extends React.Component {
           renderRow={this.renderRow.bind(this)}
           loadData={this.handleRefresh.bind(this)}
           refreshDescription="Refreshing..."
+          onEndReached={this.loadMoreRows.bind(this)}
+          onEndReachedThreshold={100}
         />
       </View>
     );
